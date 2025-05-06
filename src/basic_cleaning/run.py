@@ -53,43 +53,43 @@ if __name__ == "__main__":
   
     parser.add_argument(
         "--input_artifact", 
-        type = ## INSERT TYPE HERE: str, float or int,
-        help = ## INSERT DESCRIPTION HERE,
+        type = str,
+        help = 'Input artifact to be cleaned (Example CSV file)',
         required = True
     )
 
     parser.add_argument(
         "--output_artifact", 
-        type = ## INSERT TYPE HERE: str, float or int,
-        help = ## INSERT DESCRIPTION HERE,
+        type = str,
+        help = 'Cleaned output file name (i.e. cleaned_data.csv)',
         required = True
     )
 
     parser.add_argument(
         "--output_type", 
-        type = ## INSERT TYPE HERE: str, float or int,
-        help = ## INSERT DESCRIPTION HERE,
+        type = str,
+        help = 'Type of output data file',
         required = True
     )
 
     parser.add_argument(
         "--output_description", 
-        type = ## INSERT TYPE HERE: str, float or int,
-        help = ## INSERT DESCRIPTION HERE,
+        type = str,
+        help = 'Cleaned data',
         required = True
     )
 
     parser.add_argument(
         "--min_price", 
-        type = ## INSERT TYPE HERE: str, float or int,
-        help = ## INSERT DESCRIPTION HERE,
+        type = str,
+        help = 'Minimium price to filter the price data',
         required = True
     )
 
     parser.add_argument(
         "--max_price",
-        type = ## INSERT TYPE HERE: str, float or int,
-        help = ## INSERT DESCRIPTION HERE,
+        type = str,
+        help = 'Maximium price to filter the price data',
         required = True
     )
 
