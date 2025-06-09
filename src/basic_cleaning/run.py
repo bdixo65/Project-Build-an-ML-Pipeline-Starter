@@ -80,31 +80,19 @@ if __name__ == "__main__":
     )
 
     parser.add_argument(
-        "--min_price", 
-<<<<<<< HEAD
-        type = str,
-=======
+        "--min_price",
         type = float,
->>>>>>> 216886153bdd07d548f77543f8f8b92617d46b62
         help = 'Minimium price to filter the price data',
         required = True
     )
 
     parser.add_argument(
         "--max_price",
-<<<<<<< HEAD
-        type = str,
-=======
         type = float,
->>>>>>> 216886153bdd07d548f77543f8f8b92617d46b62
         help = 'Maximium price to filter the price data',
         required = True
     )
 
 
     args = parser.parse_args()
-<<<<<<< HEAD
-
-=======
->>>>>>> 216886153bdd07d548f77543f8f8b92617d46b62
     go(args)
