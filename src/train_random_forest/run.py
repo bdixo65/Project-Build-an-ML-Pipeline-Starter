@@ -23,6 +23,7 @@ import wandb
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error
 from sklearn.pipeline import Pipeline, make_pipeline
+from mlflow.models.signature import infer_signature
 
 
 def delta_date_feature(dates):
@@ -61,7 +62,10 @@ def go(args):
     logger.info(f"Minimum price: {y.min()}, Maximum price: {y.max()}")
 
     X_train, X_val, y_train, y_val = train_test_split(
-        X, y, test_size=args.val_size, stratify=X[args.stratify_by], random_state=args.random_seed
+        X, y,
+        test_size = args.val_size,
+        stratify = X[args.stratify_by],
+        random_state = args.random_seed
     )
 
     logger.info("Preparing sklearn pipeline")
@@ -77,10 +81,12 @@ def go(args):
     r_squared = sk_pipe.score(X_val, y_val)
     y_pred = sk_pipe.predict(X_val)
     mae = mean_absolute_error(y_val, y_pred)
+    
     logger.info(f"Score: {r_squared}")
     logger.info(f"MAE: {mae}")
 
     logger.info("Exporting model")
+    
     # Save model package in the MLFlow sklearn format
     if os.path.exists("random_forest_dir"):
         shutil.rmtree("random_forest_dir")
@@ -88,19 +94,24 @@ def go(args):
     ######################################
     # Save the sk_pipe pipeline as a mlflow.sklearn model in the directory "random_forest_dir"
     # HINT: use mlflow.sklearn.save_model
+    rf_storage_dir = 'random_forest_dir'
+    signature = infer_signature(X_val, y_pred)
+    
     mlflow.sklearn.save_model(
-        sk_pipe,
-        path="random_forest_dir",
-        input_example = X_train.iloc[:5]
+        sk_model = sk_pipe,
+        path = random_forest_dir,
+        serial_format = mlflow.sklearn.SERIALIZATION_FORMAT_CLOUDPICKLE,
+        signature = signature,
+        input_example = X_val.iloc[:10]
     )
     ######################################
 
 
     # Upload the model we just exported to W&B
     artifact = wandb.Artifact(
-        args.output_artifact,
+        name = args.output_artifact,
         type = 'model_export',
-        description = 'Trained ranfom forest artifact',
+        description = 'Trained random forest artifact',
         metadata = rf_config
     )
     artifact.add_dir('random_forest_dir')
