@@ -88,20 +88,17 @@ def go(args):
     logger.info("Exporting model")
     
     # Save model package in the MLFlow sklearn format
-    if os.path.exists("random_forest_dir"):
-        shutil.rmtree("random_forest_dir")
+    random_forest_dir = "random_forest_dir"
+    if os.path.exists(random_forest_dir):
+        shutil.rmtree(random_forest_dir)
 
     ######################################
     # Save the sk_pipe pipeline as a mlflow.sklearn model in the directory "random_forest_dir"
     # HINT: use mlflow.sklearn.save_model
-    rf_storage_dir = 'random_forest_dir'
-    signature = infer_signature(X_val, y_pred)
     
     mlflow.sklearn.save_model(
         sk_model = sk_pipe,
         path = random_forest_dir,
-        serial_format = mlflow.sklearn.SERIALIZATION_FORMAT_CLOUDPICKLE,
-        signature = signature,
         input_example = X_val.iloc[:10]
     )
     ######################################
